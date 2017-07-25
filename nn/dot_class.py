@@ -18,7 +18,7 @@ np.random.seed(0)
 def create_data_set():
     x = np.zeros((N*K,D))
     y = np.zeros(N*K, dtype='uint8')
-    for j in xrange(K):
+    for j in range(K):
       ix = range(N*j,N*(j+1))
       r = np.linspace(0.0,1,N) # radius
       t = np.linspace(j*4,(j+1)*4,N) + np.random.randn(N)*0.2 # theta
@@ -48,7 +48,7 @@ def train_with_nx1():
     w = 0.01 * np.random.random((D, K))
     b = np.zeros((1, K))
 
-    for i in xrange(totol_steps):
+    for i in range(totol_steps):
         scores = np.dot(x, w) + b
         probs = softmax(scores, axis=1)
         y_probs = probs[range(data_count), y]
@@ -99,8 +99,8 @@ def train_with_nx2():
     w1 = 0.01 * np.random.randn(h, K)
     b1 = np.zeros((1, K))
 
-    for i in xrange(totol_steps):
-        # activation ReLu
+    for i in range(totol_steps):
+        # activa`tion ReLu
         l1 = np.maximum(0, np.dot(x, w0) + b0)
         scores = np.dot(l1, w1) + b1
         l2 = softmax(scores, axis=1)
@@ -136,7 +136,7 @@ def train_with_nx2():
         scores = np.dot(hidden_layer, w1) + b1
         predicted_class = np.argmax(scores, axis=1)
         if i % (totol_steps / 100) == 0:
-            print 'training accuracy: %.2f' % (np.mean(predicted_class == y))
+            print('training accuracy: %.2f' % (np.mean(predicted_class == y)))
 
 
     # draw
