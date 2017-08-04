@@ -126,7 +126,7 @@ for i in xrange(train_steps):
 
 
     # d(cost)/d(b1) = d(cost)/d(l2) * d(l2)/d(sigmoid2_input) * d(sigmoid2_input)/d(b1)
-    delta_b1 = (error_l2 * d_l2) * 1
+    delta_b1 = error_l2 * d_l2 * 1
 
     # d(cost)/d(b0) = d(cost)/d(l2) * d(l2)/d(sigmoid2_input) * d(sigmoid2_input)/d(l1) * d(l1)/d(sigmoid1_input) * d(sigmoid1_input)/d(b0)
     delta_b0 = error_l1 * d_l1 * 1
