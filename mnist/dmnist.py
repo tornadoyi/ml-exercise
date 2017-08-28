@@ -191,6 +191,7 @@ def main(server, args):
         with tf.variable_scope("global"):
             g_model = Model(optimizer)
             global_step = tf.Variable(0.0, trainable=False, dtype=tf.float64)
+            op_next_global_step = global_step.assign_add(1)
             variables_to_save = g_model.var_list + [global_step]
 
     with tf.device(args.worker_device):
@@ -223,9 +224,13 @@ def main(server, args):
     sess = sv.prepare_or_wait_for_session(server.target, config=config)
 
     def train():
-        for i in range(1):
+        while True:
+            i = sess.run(op_next_global_step)
+            if i > 20000: break
+
             model.pull(sess)
             batch = mnist.train.next_batch(50)
+
             if i % 100 == 0:
                 train_accuracy = model.predict(sess, batch[0], batch[1], 1.0)
                 logging.info('step %d, training accuracy %g' % (i, train_accuracy))
